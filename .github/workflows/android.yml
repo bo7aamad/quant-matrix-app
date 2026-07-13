@@ -14,7 +14,8 @@ jobs:
     - name: Setup System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y ccache lbzip2 libffi-dev libssl-dev autoconf automake libtool pkg-config cmake git envsubst openjdk-17-jdk unzip zip
+        # Fixed: Exchanged the invalid envsubst reference for python3-dev and zlib1g-dev compilation engines
+        sudo apt-get install -y build-essential ccache lbzip2 libffi-dev libssl-dev autoconf automake libtool pkg-config cmake git openjdk-17-jdk unzip zip zlib1g-dev python3-dev
 
     - name: Set up Python Environment
       uses: actions/setup-python@v5
@@ -29,7 +30,6 @@ jobs:
     - name: Build Android Native Binaries via Cloud Action
       run: |
         export APP_ANDROID_ARCHS="arm64-v8a"
-        # The ultimate cloud bypass: Auto-accepts all SDK/NDK licensing conditions
         yes | buildozer android debug
       continue-on-error: false
 
