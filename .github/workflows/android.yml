@@ -11,10 +11,9 @@ jobs:
     - name: Checkout Repository Source
       uses: actions/checkout@v4
 
-    - name: Setup Data Science Compilation Dependencies
+    - name: Setup System Compilation Dependencies
       run: |
         sudo apt-get update
-        # Injected autopoint, patchelf, and gfortran so pandas/numpy can compile
         sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev autoconf automake libtool pkg-config zlib1g-dev openjdk-17-jdk unzip zip python3-dev cmake autopoint patchelf gfortran
 
     - name: Set up Python Environment
@@ -29,8 +28,14 @@ jobs:
 
     - name: Build Android Native Binaries via Buildozer
       run: |
-        export APP_ANDROID_ARCHS="arm64-v8a"
-        yes | buildozer android debug
+        # CRITICAL FIX: Clear the runner's pre-installed NDK variables
+        # This forces Buildozer to install and use its own tested sandbox NDK
+        unset ANDROID_NDK
+        unset ANDROID_NDK_HOME
+        unset ANDROID_NDK_ROOT
+        unset ANDROID_NDK_LATEST_HOME
+        
+        buildozer android debug
       continue-on-error: false
 
     - name: Upload Standalone App Installer Artifact
