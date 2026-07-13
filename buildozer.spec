@@ -5,13 +5,15 @@ package.domain = org.quant
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 1.0.0
-requirements = python3,kivy,requests
+# FIXED: Injected openssl to build the secure handshake module for HTTPS connections
+requirements = python3,kivy,requests,openssl
 
 orientation = portrait
 fullscreen = 1
 android.archs = arm64-v8a
 android.allow_backup = True
-android.api = 33
+# FIXED: Bumped target to modern safety guidelines to clear Google Play Protect warnings
+android.api = 34
 android.minapi = 21
 android.ndk_api = 21
 android.accept_sdk_license = True
