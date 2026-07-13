@@ -11,10 +11,17 @@ jobs:
     - name: Checkout Repository Source
       uses: actions/checkout@v4
 
+    # New Step: Force-inject and lock the environment to Java 17
+    - name: Set up JDK 17 Baseline
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
     - name: Setup System Compilation Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev autoconf automake libtool pkg-config zlib1g-dev openjdk-17-jdk unzip zip python3-dev cmake autopoint patchelf gfortran
+        sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev autoconf automake libtool pkg-config zlib1g-dev unzip zip python3-dev cmake autopoint patchelf gfortran
 
     - name: Set up Python Environment
       uses: actions/setup-python@v5
@@ -28,8 +35,7 @@ jobs:
 
     - name: Build Android Native Binaries via Buildozer
       run: |
-        # CRITICAL FIX: Clear the runner's pre-installed NDK variables
-        # This forces Buildozer to install and use its own tested sandbox NDK
+        # Clear runner NDK variables to prevent environment leaks
         unset ANDROID_NDK
         unset ANDROID_NDK_HOME
         unset ANDROID_NDK_ROOT
