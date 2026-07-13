@@ -6,7 +6,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 1.0.0
 # FIXED: Injected openssl to build the secure handshake module for HTTPS connections
-requirements = python3,kivy,requests,openssl
+requirements = python3,kivy,requests,openssl,certifi
 
 orientation = portrait
 fullscreen = 1
