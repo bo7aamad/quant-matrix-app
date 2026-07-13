@@ -5,7 +5,7 @@ package.domain = org.quant
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 1.0.0
-requirements = python3,kivy,requests,feedparser
+requirements = python3,kivy,requests
 
 orientation = portrait
 fullscreen = 1
